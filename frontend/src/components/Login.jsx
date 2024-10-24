@@ -1,6 +1,3 @@
-
-
-// src/components/Login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,24 +5,23 @@ import axios from 'axios';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // src/components/Login.jsx
-const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password });
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.role);
       
-      console.log("Login successful, navigating to dashboard...");  // Check if this runs
+      console.log("Login successful, navigating to dashboard...");
       navigate('/dashboard'); // Redirect to dashboard after login
     } catch (error) {
       setError(error.response?.data.message || 'Login failed');
     }
   };
-  
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
@@ -44,16 +40,23 @@ const handleLogin = async (e) => {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label className="block mb-2 text-gray-700" htmlFor="password">Password</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}  // Toggle between password and text type
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border rounded"
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+              className="absolute inset-y-0 right-0 px-4 py-2 text-gray-500"
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
           </div>
           <button className="w-full bg-blue-500 text-white py-2 rounded" type="submit">
             Login
