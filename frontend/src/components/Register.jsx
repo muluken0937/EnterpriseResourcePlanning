@@ -1,70 +1,103 @@
-import React, { useState } from 'react';
+
+
+import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function Register() {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [role, setRole] = useState('Sales Manager');
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null); // State for success message
+export default function Register() {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: 'Admin' // Default role
+  });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(''); // New state for success message
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const token = localStorage.getItem('token'); 
-            const response = await axios.post('http://localhost:5000/api/users/register', 
-                { username, email, password, role }, 
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            console.log(response.data);
-            setSuccess('User registered successfully!'); // Set success message
-            setError(null); // Clear any previous errors
-        } catch (error) {
-            setError('Registration failed');
-            setSuccess(null); // Clear any previous success message
-        }
-    };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    return (
-        <div className="flex justify-center items-center h-screen">
-            <form onSubmit={handleSubmit} className="w-full max-w-sm p-6 bg-white rounded shadow-lg">
-                <h2 className="text-2xl mb-6 text-center">Register User</h2>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full mb-4 px-3 py-2 border rounded"
-                />
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full mb-4 px-3 py-2 border rounded"
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full mb-4 px-3 py-2 border rounded"
-                />
-                <select
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    className="w-full mb-4 px-3 py-2 border rounded"
-                >
-                    <option value="Admin">Admin</option>
-                    <option value="Sales Manager">Sales Manager</option>
-                </select>
-                {error && <p className="text-red-500">{error}</p>}
-                {success && <p className="text-green-500">{success}</p>} {/* Display success message */}
-                <button type="submit" className="w-full bg-green-500 text-white py-2 rounded">Register</button>
-            </form>
-        </div>
-    );
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post('http://localhost:5000/api/users/register', formData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setSuccess('User registered successfully!'); 
+      setError(''); 
+      setTimeout(() => {
+        navigate('/dashboard'); 
+      }, 1000); 
+    } catch (error) {
+      setError(error.response?.data.message || 'Registration failed');
+      setSuccess(''); 
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex justify-center items-center bg-gray-100">
+      <div className="w-full max-w-md bg-white p-8 rounded shadow">
+        <h2 className="text-2xl font-semibold mb-6 text-center">Register New User</h2>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        {success && <div className="text-green-500 mb-4">{success}</div>} {/* Success message */}
+        <form onSubmit={handleRegister}>
+          <div className="mb-4">
+            <label className="block mb-2 text-gray-700" htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 text-gray-700" htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 text-gray-700" htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 text-gray-700" htmlFor="role">Role</label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded"
+            >
+              <option value="Admin">Admin</option>
+              <option value="Sales Manager">Sales Manager</option>
+            </select>
+          </div>
+          <button className="w-full bg-blue-500 text-white py-2 rounded" type="submit">
+            Register
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
-
-export default Register;

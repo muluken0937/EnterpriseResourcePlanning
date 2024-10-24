@@ -1,49 +1,50 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import SuperAdminRegister from './components/SuperAdminRegister';
-import Register from './components/Register'; 
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
+import Register from './components/Register';
 import Dashboard from './components/Dashboard';
-import NotFound from './components/NotFound'; 
-import useAuth from './hooks/useAuth'; 
-import { Navigate } from 'react-router-dom'; 
-import Navbar from './components/Navbar'; // Import Navbar
+import SuperAdminRegister from './components/SuperAdminRegister';
+import PrivateRoute from './components/PrivateRoute';
+import NotFound from './components/NotFound'; // Import NotFound component
+import Navbar from './components/Navbar'; // Import Navbar component
 
-const App = () => {
-  const { isAuthenticated, userRole } = useAuth(); // Assuming useAuth provides userRole
-  const location = useLocation(); // Get the current location
-
-  // Check if the current path is one where you want to show the Navbar
-  const showNavbar = location.pathname === '/' || location.pathname.startsWith('/dashboard');
+function App() {
+  const isAuthenticated = Boolean(localStorage.getItem('token')); // Example authentication check
 
   return (
-    <div className="App">
-      {showNavbar && <Navbar />} {/* Conditionally render Navbar */}
-      <Routes>
-        <Route path="/" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+    <Router>
+      {/* Render Navbar only if not on login or super admin registration pages */}
+      {window.location.pathname !== '/login' && 
+       window.location.pathname !== '/superadmin/register' && <Navbar />}
 
-        {/* Protect the registration routes */}
-        <Route 
-          path="/register/superadmin" 
-          element={isAuthenticated && userRole === 'Super Admin' ? <SuperAdminRegister /> : <Navigate to="/login" />} 
-        />
+      <Routes>
+        {/* Add a route for "/" and redirect it to "/login" or any other default page */}
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        
+        {/* Restrict access to Register route; only authenticated users can access it */}
         <Route 
           path="/register" 
-          element={isAuthenticated && userRole === 'Super Admin' ? <Register /> : <Navigate to="/login" />} 
-        /> 
-
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<NotFound />} /> 
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <Register />
+            </PrivateRoute>
+          } 
+        />
+        
+        <Route path="/superadmin/register" element={<SuperAdminRegister />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} /> {/* Handle 404 errors */}
       </Routes>
-    </div>
+    </Router>
   );
-};
+}
 
-// Wrap App component with Router
-const AppWithRouter = () => (
-  <Router>
-    <App />
-  </Router>
-);
-
-export default AppWithRouter;
+export default App;

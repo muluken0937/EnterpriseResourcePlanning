@@ -1,21 +1,31 @@
+
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const userRole = localStorage.getItem('role');
 
     const handleLogout = () => {
-        
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         navigate('/login'); // Redirect to login page after logout
     };
 
+    if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/superadmin/register') {
+        return null;
+    }
+
     return (
-        <nav className="bg-blue-600 p-4">
+        <nav className="bg-blue-900 p-4">
             <div className="container mx-auto flex justify-between items-center">
-                <Link to="/" className="text-white text-lg font-bold">Dashboard</Link>
+                <Link to="/dashboard" className="text-white text-lg font-bold">Dashboard</Link>
                 <div>
-                    <Link to="/register" className="text-white mr-4">Register</Link>
+                    {userRole === 'Super Admin' && (
+                        <Link to="/register" className="text-white mr-4">Register</Link> // Super Admin can see the Register link
+                    )}
                     <button onClick={handleLogout} className="text-white">Logout</button>
                 </div>
             </div>
@@ -24,3 +34,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
