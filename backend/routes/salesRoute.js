@@ -1,38 +1,40 @@
 // routes/salesRoute.js
 const express = require('express');
-const router = express.Router();
+const { isSalesManager } = require('../middleware/salesMiddleware'); // Ensure this path is correct
 const SalesUser = require('../models/salesUser');
-const { isSalesManager } = require('../middleware/salesMiddleware');
 
-// Route: Create a new Sales User (accessible by Sales Managers only)
+const router = express.Router();
+
+// Create Sales User route
 router.post('/create', isSalesManager, async (req, res) => {
+    const { username, email, password } = req.body;
+    const createdBy = req.user.id; // Get the Sales Manager's ID from the token
+
     try {
-        const { username, email, password } = req.body;
-
-        // Add password hashing here if necessary
-        // Example: bcrypt.hash(password, saltRounds)
-
+        // Create a new Sales User
         const newSalesUser = new SalesUser({
             username,
             email,
             password,
-            createdBy: req.user._id  // Sales Manager ID from the middleware
+            createdBy,
         });
 
-        const savedSalesUser = await newSalesUser.save();
-        res.status(201).json(savedSalesUser);
+        // Save the new user to the database
+        await newSalesUser.save();
+
+        return res.status(201).json({ message: 'Sales User created successfully!' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.status(400).json({ message: error.message });
     }
 });
 
-// Route: Get all Sales Users created by the Sales Manager
+// Get All Sales Users route
 router.get('/', isSalesManager, async (req, res) => {
     try {
-        const salesUsers = await SalesUser.find({ createdBy: req.user._id });
-        res.status(200).json(salesUsers);
+        const salesUsers = await SalesUser.find().populate('createdBy', 'username email'); // Populate with creator details if necessary
+        return res.status(200).json(salesUsers);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 });
 

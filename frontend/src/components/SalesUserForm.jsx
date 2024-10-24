@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SalesUserForm = () => {
@@ -11,47 +12,61 @@ const SalesUserForm = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const navigate = useNavigate();
+
+  // Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setSuccess('');
+    setError(''); 
+    setSuccess(''); 
 
-    const token = localStorage.getItem('authToken');  // Assume token is stored in localStorage
+    const token = localStorage.getItem('token'); 
+
+    // Ensure token exists before making the request
+    if (!token) {
+      setError('Access denied. Please log in again.');
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await axios.post(
+      await axios.post(
         'http://localhost:5000/api/sales-users/create',
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`,  // Include token in header
+            Authorization: `Bearer ${token}`, // Include token in header
           },
         }
       );
 
+      // Show success message and navigate after a short delay
       setSuccess('Sales User created successfully!');
-      setFormData({
-        username: '',
-        email: '',
-        password: '',
-      });
+      setTimeout(() => {
+        navigate('/dashboard'); // Update this to your actual dashboard route
+      }, 1000); // Delay in milliseconds (1 second)
+
+      setFormData({ username: '', email: '', password: '' }); // Reset form
+
     } catch (err) {
+      console.error(err);
       setError(err.response?.data?.message || 'Failed to create Sales User');
     } finally {
-      setLoading(false);
+      setLoading(false); // Reset loading state
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-8 p-4 border rounded shadow-md bg-white">
       <h2 className="text-2xl font-bold mb-4">Create Sales User</h2>
-      {error && <div className="text-red-500 mb-4">{error}</div>}
-      {success && <div className="text-green-500 mb-4">{success}</div>}
+      {error && <div className="text-red-500 mb-4" aria-live="assertive">{error}</div>}
+      {success && <div className="text-green-500 mb-4" aria-live="assertive">{success}</div>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">Username</label>

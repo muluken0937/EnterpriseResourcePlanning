@@ -53,7 +53,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
-              className="absolute inset-y-0 right-0 px-4 py-2 text-gray-500"
+              className="absolute inset-y-0 right-0 px-4 py-10 text-gray-500"
             >
               {showPassword ? 'Hide' : 'Show'}
             </button>

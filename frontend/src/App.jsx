@@ -1,15 +1,16 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import SuperAdminRegister from './components/SuperAdminRegister';
+import SalesUserForm from './components/SalesUserForm'; // Change import to SalesUserForm
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './components/NotFound'; // Import NotFound component
 import Navbar from './components/Navbar'; // Import Navbar component
 
 function App() {
   const isAuthenticated = Boolean(localStorage.getItem('token')); // Example authentication check
+  const userRole = localStorage.getItem('role'); // Get the user role
 
   return (
     <Router>
@@ -33,14 +34,26 @@ function App() {
         />
         
         <Route path="/superadmin/register" element={<SuperAdminRegister />} />
-        <Route
-          path="/dashboard"
+
+        {/* Update route for creating Sales Users to use SalesUserForm */}
+        <Route 
+          path="/sales-users/create" 
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated} requiredRole="Sales Manager">
+              <SalesUserForm /> {/* Change to SalesUserForm */}
+            </PrivateRoute>
+          } 
+        />
+
+        <Route 
+          path="/dashboard" 
           element={
             <PrivateRoute isAuthenticated={isAuthenticated}>
               <Dashboard />
             </PrivateRoute>
-          }
+          } 
         />
+        
         <Route path="*" element={<NotFound />} /> {/* Handle 404 errors */}
       </Routes>
     </Router>
