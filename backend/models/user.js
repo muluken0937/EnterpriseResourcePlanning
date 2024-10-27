@@ -1,4 +1,3 @@
-//models/user.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -18,7 +17,11 @@ const userSchema = new mongoose.Schema({
     propertiesAssigned: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Property' 
-    }]  
+    }],
+    // New fields for Customer
+    phoneNumber: { type: String },
+    description: { type: String },
+    location: { type: String }
 });
 
 module.exports = mongoose.model('User', userSchema);

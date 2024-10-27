@@ -101,7 +101,7 @@ exports.getSalesUsers = async (req, res) => {
 
 // Create a Customer function (for Sales User)
 exports.createCustomer = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, phoneNumber, description, location } = req.body;
     const createdBy = req.user.id;
 
     try {
@@ -111,7 +111,10 @@ exports.createCustomer = async (req, res) => {
             email,
             password: hashedPassword,
             role: 'Customer',
-            createdBy
+            createdBy,
+            phoneNumber,   
+            description,    
+            location        
         });
 
         await newCustomer.save();
