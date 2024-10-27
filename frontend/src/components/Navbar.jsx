@@ -1,3 +1,4 @@
+// components/Navbar.jsx
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
@@ -14,7 +15,7 @@ const Navbar = () => {
     };
 
     // Exclude Navbar for certain paths
-    if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/superadmin/register') {
+    if (['/login', '/register', '/superadmin/register'].includes(location.pathname)) {
         return null;
     }
 
@@ -24,10 +25,13 @@ const Navbar = () => {
                 <Link to="/dashboard" className="text-white text-lg font-bold">Dashboard</Link>
                 <div>
                     {userRole === 'Super Admin' && (
-                        <Link to="/register" className="text-white mr-4">Register</Link> // Super Admin can see the Register link
+                        <Link to="/register" className="text-white mr-4">Register</Link> 
                     )}
                     {userRole === 'Sales Manager' && (
-                        <Link to="/sales-users/create" className="text-white mr-4">Create Sales User</Link> // Sales Manager can see the Create Sales User link
+                        <Link to="/sales-users/create" className="text-white mr-4">Create Sales User</Link>
+                    )}
+                    {userRole === 'Sales User' && (
+                        <Link to="/customers/register" className="text-white mr-4">RegisterCustomer</Link> 
                     )}
                     <button onClick={handleLogout} className="text-white">Logout</button>
                 </div>

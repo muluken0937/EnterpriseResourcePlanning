@@ -37,7 +37,7 @@ const SalesUserForm = () => {
 
     try {
       await axios.post(
-        'http://localhost:5000/api/sales-users/create',
+        'http://localhost:5000/api/users/sales-users/create',
         formData,
         {
           headers: {

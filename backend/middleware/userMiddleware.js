@@ -1,7 +1,7 @@
-// middleware/userMiddleware.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');  
+const User = require('../models/user');
 
+// Protect middleware: ensures the user is authenticated
 exports.protect = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
@@ -17,6 +17,7 @@ exports.protect = (req, res, next) => {
     }
 };
 
+// RestrictTo middleware: restricts access based on roles
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
@@ -24,4 +25,20 @@ exports.restrictTo = (...roles) => {
         }
         next();
     };
+};
+
+// isSalesManager middleware: specific for Sales Manager actions
+exports.isSalesManager = (req, res, next) => {
+    if (req.user.role !== 'Sales Manager') {
+        return res.status(403).json({ message: 'Access denied. Only Sales Managers can perform this action.' });
+    }
+    next();
+};
+
+// isCustomer middleware (Optional): in case specific routes are exclusive to Customers
+exports.isCustomer = (req, res, next) => {
+    if (req.user.role !== 'Customer') {
+        return res.status(403).json({ message: 'Access denied. Only Customers can perform this action.' });
+    }
+    next();
 };
