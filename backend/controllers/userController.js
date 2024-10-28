@@ -1,3 +1,4 @@
+const mongoose = require('mongoose'); 
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -129,6 +130,60 @@ exports.getCustomers = async (req, res) => {
     try {
         const customers = await User.find({ role: 'Customer' }).populate('createdBy', 'username email');
         res.status(200).json(customers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+exports.getSalesPerformance = async (req, res) => {
+    try {
+        let salesPerformance;
+
+        // Check if the user is a Sales User
+        if (req.user.role === 'Sales User') {
+            // Fetch only the performance data for this specific Sales User
+            salesPerformance = await User.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(req.user.id) } },
+                {
+                    $lookup: {
+                        from: 'users',            // The collection we are joining with (Customers)
+                        localField: '_id',        // Sales User's ID
+                        foreignField: 'createdBy', // Customer's createdBy field
+                        as: 'customers',          // Output field
+                    }
+                },
+                {
+                    $project: {
+                        username: 1,
+                        email: 1,
+                        customerCount: { $size: '$customers' },
+                    }
+                }
+            ]);
+        } else {
+            // Fetch performance data for all Sales Users if the user has the required role
+            salesPerformance = await User.aggregate([
+                { $match: { role: 'Sales User' } },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: '_id',
+                        foreignField: 'createdBy',
+                        as: 'customers',
+                    }
+                },
+                {
+                    $project: {
+                        username: 1,
+                        email: 1,
+                        customerCount: { $size: '$customers' },
+                    }
+                }
+            ]);
+        }
+
+        res.status(200).json(salesPerformance);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
