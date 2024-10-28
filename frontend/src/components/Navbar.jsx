@@ -1,4 +1,3 @@
-// components/Navbar.jsx
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
@@ -31,7 +30,10 @@ const Navbar = () => {
                         <Link to="/sales-users/create" className="text-white mr-4">Create Sales User</Link>
                     )}
                     {userRole === 'Sales User' && (
-                        <Link to="/customers/register" className="text-white mr-4">RegisterCustomer</Link> 
+                        <Link to="/customers/register" className="text-white mr-4">Register Customer</Link> 
+                    )}
+                    {(userRole === 'Super Admin' || userRole === 'Admin' || userRole === 'Sales Manager' || userRole === 'Sales User') && (
+                        <Link to="/sales-performance" className="text-white mr-4">Sales Performance</Link>
                     )}
                     <button onClick={handleLogout} className="text-white">Logout</button>
                 </div>

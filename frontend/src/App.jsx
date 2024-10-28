@@ -1,11 +1,11 @@
-// App.jsx
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import SuperAdminRegister from './components/SuperAdminRegister';
 import SalesUserForm from './components/SalesUserForm';
-import CustomerRegister from './components/CustomerRegister'; // Import the new CustomerRegister component
+import CustomerRegister from './components/CustomerRegister';
+import SalesPerformance from './components/SalesPerformance';
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './components/NotFound';
 import Navbar from './components/Navbar';
@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
-        
+
         <Route 
           path="/register" 
           element={
@@ -60,7 +60,16 @@ function App() {
             </PrivateRoute>
           } 
         />
-        
+
+        <Route 
+          path="/sales-performance" 
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated} requiredRole={["Super Admin", "Admin", "Sales Manager", "Sales User"]}>
+              <SalesPerformance />
+            </PrivateRoute>
+          } 
+        />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

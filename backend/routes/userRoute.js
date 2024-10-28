@@ -6,11 +6,12 @@ const {
     createSalesUser, 
     getSalesUsers, 
     createCustomer, 
-    getCustomers 
+    getCustomers, 
+    getSalesPerformance // Only import once
 } = require('../controllers/userController');
 const { protect, restrictTo, isSalesManager } = require('../middleware/userMiddleware');
 
-// User registration routes
+// Super Admin registration route
 router.post('/register/superadmin', register);
 router.post('/register', protect, restrictTo('Super Admin'), register);
 
@@ -24,5 +25,11 @@ router.get('/sales-users', protect, isSalesManager, getSalesUsers);
 // Customer routes
 router.post('/customers/create', protect, restrictTo('Sales User'), createCustomer);  // Allow only Sales Users to create customers
 router.get('/customers', protect, restrictTo('Super Admin', 'Admin', 'Sales User'), getCustomers); // Allow Sales User to view customers too
+
+// Super Admin, Admin, and Sales Manager can view Sales User performance
+
+router.get(
+    '/sales-performance', protect, restrictTo('Super Admin', 'Admin', 'Sales Manager', 'Sales User'), getSalesPerformance
+);
 
 module.exports = router;
