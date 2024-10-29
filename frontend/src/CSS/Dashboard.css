@@ -1,0 +1,37 @@
+
+.dashboard-container {
+    padding: 20px;
+    margin: auto;
+    max-width: 80%;
+}
+
+.dashboard-card {
+    background: linear-gradient(135deg, #8196f3, #c5cdde);
+    padding: 1.5rem;
+    border: 1px solid gray;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 350px;
+    height: 200px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+
+
+}
+.dashboard-h1{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    padding-bottom: 2.5rem;
+}
+.dash-p{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    padding-bottom: 2.5rem;
+}

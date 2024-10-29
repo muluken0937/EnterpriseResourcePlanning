@@ -35,7 +35,6 @@ exports.register = async (req, res) => {
             email,
             password: hashedPassword,
             role: req.body.role,
-            // Only set createdBy for non-Super Admin roles
             ...(req.body.role !== 'Super Admin' && { createdBy: req.user.id })
         });
 
@@ -124,13 +123,29 @@ exports.createCustomer = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-
-// Get all Customers (Super Admin, Admin, and Sales User roles)
+// Get all Customers or Customers for a specific Sales User
 exports.getCustomers = async (req, res) => {
     try {
-        const customers = await User.find({ role: 'Customer' }).populate('createdBy', 'username email');
+        const { userId } = req.params; // Get userId from route parameters
+        let customers;
+
+        if (userId) {
+            customers = await User.find({ role: 'Customer', createdBy: userId }).populate('createdBy', 'username email');
+            
+            if (!customers.length) {
+                return res.status(404).json({ message: 'No customers found for this Sales User.' });
+            }
+        } else {
+            customers = await User.find({ role: 'Customer' }).populate('createdBy', 'username email');
+            
+            if (!customers.length) {
+                return res.status(404).json({ message: 'No customers found.' });
+            }
+        }
+
         res.status(200).json(customers);
     } catch (error) {
+        console.error('Error fetching customers:', error);
         res.status(500).json({ message: error.message });
     }
 };
@@ -140,17 +155,15 @@ exports.getSalesPerformance = async (req, res) => {
     try {
         let salesPerformance;
 
-        // Check if the user is a Sales User
         if (req.user.role === 'Sales User') {
-            // Fetch only the performance data for this specific Sales User
             salesPerformance = await User.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(req.user.id) } },
                 {
                     $lookup: {
-                        from: 'users',            // The collection we are joining with (Customers)
-                        localField: '_id',        // Sales User's ID
-                        foreignField: 'createdBy', // Customer's createdBy field
-                        as: 'customers',          // Output field
+                        from: 'users',            
+                        localField: '_id',        
+                        foreignField: 'createdBy', 
+                        as: 'customers',          
                     }
                 },
                 {
@@ -162,7 +175,6 @@ exports.getSalesPerformance = async (req, res) => {
                 }
             ]);
         } else {
-            // Fetch performance data for all Sales Users if the user has the required role
             salesPerformance = await User.aggregate([
                 { $match: { role: 'Sales User' } },
                 {
