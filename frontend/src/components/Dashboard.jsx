@@ -10,14 +10,20 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="dashboard-container">
-            <h1 className='dashboard-h1'>Welcome to the Dashboard!</h1>
+        <div className="dashboard-container ">
             
-
-            {/* Single Card for Registration Performance */}
+            <div className="background-section">
+                <div className="background-overlay">
+                    <div className="background-text">
+                        <h1 className='dashboard-h1 '>Welcome to the Dashboard!</h1>
+                        choice our the first one 
+                        </div>
+                </div>
+            </div>
+    
             <div onClick={goToPerformance} className="dashboard-card">
                 <h2>Registration Performance</h2>
-                <p className='dash-p'>Click to view Sales User performance </p>
+                <p className='dash-p'>Click to view Sales User performance</p>
             </div>
         </div>
     );

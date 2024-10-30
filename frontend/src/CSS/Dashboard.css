@@ -1,37 +1,86 @@
+body {
+    margin: 0; 
+    height: 100vh; 
+    background-image: url('../assets/image.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; /* Prevent repeating of the image */
+}
 
 .dashboard-container {
     padding: 20px;
     margin: auto;
     max-width: 80%;
+    text-align: center;
+    position: relative; /* To position child elements correctly */
+    z-index: 1; /* Ensure the container is above the background */
+}
+
+.dashboard-h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f1eaf1;
+    padding-bottom: 2.5rem;
+   
+}
+
+.background-section {
+    position: relative;
+    height: 300px;
+    width: 800px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+
+
+    box-shadow: 0 4px 8px rgba(68, 51, 51, 0.2);
+    margin-left: 15rem;
+}
+
+/* .background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.background-text {
+    color: rgb(77, 9, 9);
+    font-size: 2rem;
+    text-align: center;
+    padding: 4px;
 }
 
 .dashboard-card {
     background: linear-gradient(135deg, #8196f3, #c5cdde);
     padding: 1.5rem;
     border: 1px solid gray;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     width: 350px;
-    height: 200px;
+    height: 150px;
+    margin: auto;
     transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .dashboard-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
     background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-
-
 }
-.dashboard-h1{
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
-    padding-bottom: 2.5rem;
-}
-.dash-p{
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
-    padding-bottom: 2.5rem;
+
+.dash-p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #34495e;
+    padding-bottom: 1rem;
 }
