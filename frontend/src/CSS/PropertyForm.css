@@ -1,0 +1,75 @@
+.property-form-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.property-form-container h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.property-form-container h3 {
+    font-size: 1.2rem;
+    color: #444;
+    margin-top: 1.5rem;
+}
+
+.property-form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.property-form-container input[type="text"],
+.property-form-container input[type="number"],
+.property-form-container textarea,
+.property-form-container select {
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.property-form-container input:focus,
+.property-form-container textarea:focus,
+.property-form-container select:focus {
+    border-color: #0066cc;
+}
+
+.property-form-container textarea {
+    resize: vertical;
+    height: 80px;
+}
+
+.property-form-container button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.property-form-container button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}

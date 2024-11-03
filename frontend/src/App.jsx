@@ -6,10 +6,12 @@ import SuperAdminRegister from './components/SuperAdminRegister';
 import SalesUserForm from './components/SalesUserForm';
 import CustomerRegister from './components/CustomerRegister';
 import SalesPerformance from './components/SalesPerformance';
+import PropertyList from './components/PropertyList';  
+import PropertyDetail from './components/PropertyDetail'; 
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './components/NotFound';
 import Navbar from './components/Navbar';
-
+import PropertyForm from './components/PropertyForm';
 function App() {
   const isAuthenticated = Boolean(localStorage.getItem('token'));
   const userRole = localStorage.getItem('role');
@@ -66,6 +68,40 @@ function App() {
           element={
             <PrivateRoute isAuthenticated={isAuthenticated} requiredRole={["Super Admin", "Admin", "Sales Manager", "Sales User"]}>
               <SalesPerformance />
+            </PrivateRoute>
+          } 
+        />
+
+        <Route 
+          path="/properties"  
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <PropertyList />
+            </PrivateRoute>
+          } 
+        /> 
+        <Route 
+        path="/properties/add" 
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated}>
+            <PropertyForm />
+          </PrivateRoute>
+        } 
+      />
+
+      <Route 
+        path="/properties/edit/:id" 
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated}>
+            <PropertyForm isEditing={true} />
+          </PrivateRoute>
+        } 
+      />
+        <Route 
+          path="/properties/:id" // Route for PropertyDetail
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <PropertyDetail />
             </PrivateRoute>
           } 
         />

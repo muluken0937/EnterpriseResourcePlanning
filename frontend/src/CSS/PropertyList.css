@@ -1,0 +1,47 @@
+.property-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.property-card-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 200px;
+    background-color: #e0e0e0;
+    color: #757575;
+    font-size: 1rem;
+    border-radius: 8px;
+}
+
+.property-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+}
+
+.property-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.property-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.property-card-details,
+.property-card-status {
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.property-card-text {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}

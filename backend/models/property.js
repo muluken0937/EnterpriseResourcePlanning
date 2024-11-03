@@ -68,6 +68,11 @@ const propertySchema = new mongoose.Schema({
         documentType: String, // e.g., Ownership, Inspection, Contract
         documentUrl: String,
     }],
-}, { timestamps: true });
+    images: [{
+        imageUrl: String, // URL of the uploaded image
+        description: String, // Optional description for each image
+    }],
+}, 
+{ timestamps: true });
 
 module.exports = mongoose.model('Property', propertySchema);
