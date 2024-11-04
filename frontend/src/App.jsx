@@ -20,6 +20,7 @@ function App() {
     <Router>
       {window.location.pathname !== '/login' && 
        window.location.pathname !== '/superadmin/register' && <Navbar />}
+     <div style={{ paddingTop: '80px' }}>
 
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
@@ -108,6 +109,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </div> 
     </Router>
   );
 }

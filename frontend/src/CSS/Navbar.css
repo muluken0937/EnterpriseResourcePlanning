@@ -1,0 +1,42 @@
+/* Navbar.css */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    background: linear-gradient(90deg, #e4eaf9 0%, #ebf0f9 100%); /* Dim to bright blue gradient */
+    
+}
+.navbar-logo {
+    width: 60px;
+    height: auto;
+    margin-right: 7px;
+}
+
+.navbar-dashboard-link {
+    color: rgb(70, 85, 220);
+    font-size: 1.8rem; /* Larger font size for the Dashboard link */
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+.navbar-link {
+    color: rgb(77, 109, 235);
+    font-size: 1.125rem; /* Regular size for other links */
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+.navbar-button {
+    color: rgb(255, 251, 251);
+    background: red;
+    border: none;
+    cursor: pointer;
+}
