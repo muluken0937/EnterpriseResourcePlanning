@@ -1,5 +1,4 @@
-/* Navbar.css */
-
+/* Navbar Styling */
 .navbar {
     position: fixed;
     top: 0;
@@ -9,34 +8,127 @@
     height: 80px;
     display: flex;
     align-items: center;
-    padding: 0 1rem;
-    background: linear-gradient(90deg, #e4eaf9 0%, #ebf0f9 100%); /* Dim to bright blue gradient */
-    
+    padding: 0 2rem;
+    background: linear-gradient(90deg, #9aafe5 0%, #ebf0f9 100%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .navbar-logo {
-    width: 60px;
+    width: 50px;
     height: auto;
-    margin-right: 7px;
+    margin-left: -4rem;
 }
 
 .navbar-dashboard-link {
-    color: rgb(70, 85, 220);
-    font-size: 1.8rem; /* Larger font size for the Dashboard link */
+    color: rgb(8, 13, 58);
+    font-size: 1.8rem;
     font-weight: bold;
     text-decoration: none;
-    margin-right: 1rem;
+    margin-left: 1.5rem;
+    transition: color 0.3s;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 }
 
 .navbar-link {
-    color: rgb(77, 109, 235);
-    font-size: 1.125rem; /* Regular size for other links */
+    color: rgb(1, 4, 17);
+    font-size: 1.125rem;
     text-decoration: none;
-    margin-right: 1rem;
+    margin-right: 1.5rem;
+    transition: color 0.3s, border-bottom 0.3s;
+    position: relative;
 }
 
-.navbar-button {
-    color: rgb(255, 251, 251);
-    background: red;
+.navbar-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background-color: rgb(70, 85, 220);
+    transition: width 0.3s;
+}
+
+.navbar-link:hover::after {
+    width: 100%;
+}
+
+.navbar-link:hover,
+.navbar-dashboard-link:hover {
+    color: rgb(9, 5, 57);
+}
+
+.navbar-link.active,
+.navbar-dashboard-link.active {
+    font-weight: bold;
+    color: rgb(9, 5, 57);
+}
+
+.navbar-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.navbar-dropdown-toggle {
+    background: none;
     border: none;
+    color: rgb(15, 30, 91);
+    font-size: 1.125rem;
     cursor: pointer;
+    transition: color 0.3s;
+}
+
+.navbar-dropdown-toggle:hover {
+    color: rgb(26, 97, 156);
+}
+
+.navbar-dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    
+}
+
+.navbar-dropdown:hover .navbar-dropdown-content {
+    display: block;
+}
+
+.navbar-dropdown-link {
+    color: rgb(32, 72, 154);
+    font-size: 1rem;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    transition: background 0.5s, color 0.s;
+}
+
+.navbar-dropdown-link:hover {
+    background-color: rgb(240, 240, 255);
+    color: rgb(17, 9, 114);
+}
+
+/* Logout button styling */
+.navbar-dropdown-link.logout {
+    color: rgb(251, 245, 244);
+    font-weight: bold;
+    transition: color 0.3s;
+    background-color: rgb(171, 39, 39);
+    width: 100%;
+}
+
+.navbar-dropdown-link.logout:hover {
+    background-color: rgb(45, 9, 18);
+    color: rgb(230, 218, 220);
 }

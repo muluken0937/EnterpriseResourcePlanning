@@ -1,11 +1,11 @@
 /* Hero Section */
 .hero {
     background-image: url('../assets/image1.png'); 
-    background-size: cover; 
-    background-position: center; 
-    padding: 80px 0; 
-    display: flex;
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0;
     height: 400px;
+    display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -18,7 +18,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(30, 58, 138, 0.6); /* Transparent overlay */
+    background: linear-gradient(to right, rgba(11, 61, 103, 0.6), rgba(177, 207, 234, 0.84));
     z-index: 1;
 }
 
@@ -27,11 +27,11 @@
     flex-wrap: wrap;
     align-items: center;
     position: relative;
-    z-index: 2; /* Keeps text above overlay */
+    z-index: 1; 
+    width: 100%; 
 }
 
 .hero-text {
-    width: 100%;
     max-width: 50%;
     text-align: left;
 }
@@ -66,15 +66,15 @@
 .hero-image {
     width: 100%;
     max-width: 400px; 
-    height: 300px; 
+    height: 400px; 
     background-image: url('../assets/image.png'); 
     background-size: cover;
     background-position: center;
     border-radius: 0.5rem;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.8);
-    position: relative;
+    box-shadow: 0px 4px 12px rgba(221, 236, 241, 0.8);
+    margin-left: 7rem; 
     overflow: hidden;
-    padding-right: 20rem;
+    position: relative;
 }
 
 .hero-image::before {
@@ -84,21 +84,20 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 0.5rem;
+    border-radius: 0.8rem;
     background: radial-gradient(
         circle, 
-        rgba(255, 255, 255, 0) 30%,  /* Transparent in the center */
-        rgba(30, 58, 138, 0.3) 80%,  /* Blue at the edges */
-        rgba(18, 75, 231, 0.6) 100%  /* Stronger blue right at the border */
+        rgba(91, 161, 196, 0) 30%,  
+        rgba(66, 160, 186, 0.3) 80%, 
+        rgba(161, 197, 230, 0.84) 100%  
     );
     pointer-events: none;
 }
 
 
-
 /* Experience Section */
 .experience {
-    background-color: #1E40AF;
+    background-color: #0f84b6;
     padding: 2rem 0;
     color: #ffffff;
     text-align: center;

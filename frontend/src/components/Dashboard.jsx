@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../CSS/Dashboard.css';
-import heroImage from '../assets/image.png';
 
 const Dashboard = () => {
     const navigate = useNavigate();

@@ -38,7 +38,7 @@ const propertySchema = new mongoose.Schema({
         }
     },
     size: {
-        type: Number, // Square footage or unit area
+        type: Number, 
         required: true,
     },
     rooms: {
@@ -69,8 +69,8 @@ const propertySchema = new mongoose.Schema({
         documentUrl: String,
     }],
     images: [{
-        imageUrl: String, // URL of the uploaded image
-        description: String, // Optional description for each image
+        imageUrl: String, 
+        description: String, 
     }],
 }, 
 { timestamps: true });
