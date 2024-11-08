@@ -12,104 +12,142 @@ import PrivateRoute from './components/PrivateRoute';
 import NotFound from './components/NotFound';
 import Navbar from './components/Navbar';
 import PropertyForm from './components/PropertyForm';
+import About from './components/About';
+import ContactUs from './components/ContactUs';
+import Resource from './components/Resource';
+import Footer from './components/Footer';
+
 function App() {
   const isAuthenticated = Boolean(localStorage.getItem('token'));
   const userRole = localStorage.getItem('role');
 
+  const renderNavbarFooter = window.location.pathname !== '/login' && window.location.pathname !== '/superadmin/register';
+
   return (
     <Router>
-      {window.location.pathname !== '/login' && 
-       window.location.pathname !== '/superadmin/register' && <Navbar />}
-     <div style={{ paddingTop: '80px' }}>
-
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-
-        <Route 
-          path="/register" 
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <Register />
-            </PrivateRoute>
-          } 
-        />
+      {renderNavbarFooter && <Navbar />}
+      <div style={{ paddingTop: renderNavbarFooter ? '80px' : '0' }}>
         
-        <Route path="/superadmin/register" element={<SuperAdminRegister />} />
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
 
-        <Route 
-          path="/sales-users/create" 
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated} requiredRole="Sales Manager">
-              <SalesUserForm />
-            </PrivateRoute>
-          } 
-        />
+          {/* Public Routes */}
+          <Route path="/superadmin/register" element={<SuperAdminRegister />} />
 
-        <Route 
-          path="/customers/register" 
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated} requiredRole="Sales User">
-              <CustomerRegister />
-            </PrivateRoute>
-          } 
-        />
+          {/* Private Routes */}
+          <Route 
+            path="/register" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <Register />
+              </PrivateRoute>
+            } 
+          />
 
-        <Route 
-          path="/dashboard" 
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <Dashboard />
-            </PrivateRoute>
-          } 
-        />
+          <Route 
+            path="/sales-users/create" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated} requiredRole="Sales Manager">
+                <SalesUserForm />
+              </PrivateRoute>
+            } 
+          />
 
-        <Route 
-          path="/sales-performance" 
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated} requiredRole={["Super Admin", "Admin", "Sales Manager", "Sales User"]}>
-              <SalesPerformance />
-            </PrivateRoute>
-          } 
-        />
+          <Route 
+            path="/customers/register" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated} requiredRole="Sales User">
+                <CustomerRegister />
+              </PrivateRoute>
+            } 
+          />
 
-        <Route 
-          path="/properties"  
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <PropertyList />
-            </PrivateRoute>
-          } 
-        /> 
-        <Route 
-        path="/properties/add" 
-        element={
-          <PrivateRoute isAuthenticated={isAuthenticated}>
-            <PropertyForm />
-          </PrivateRoute>
-        } 
-      />
+          <Route 
+            path="/dashboard" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <Dashboard />
+              </PrivateRoute>
+            } 
+          />
 
-      <Route 
-        path="/properties/edit/:id" 
-        element={
-          <PrivateRoute isAuthenticated={isAuthenticated}>
-            <PropertyForm isEditing={true} />
-          </PrivateRoute>
-        } 
-      />
-        <Route 
-          path="/properties/:id" // Route for PropertyDetail
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <PropertyDetail />
-            </PrivateRoute>
-          } 
-        />
+          <Route 
+            path="/sales-performance" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated} requiredRole={["Super Admin", "Admin", "Sales Manager", "Sales User"]}>
+                <SalesPerformance />
+              </PrivateRoute>
+            } 
+          />
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      </div> 
+          <Route 
+            path="/properties"  
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <PropertyList />
+              </PrivateRoute>
+            } 
+          />   
+
+          <Route 
+            path="/about"  
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <About />
+              </PrivateRoute>
+            } 
+          />         
+
+          <Route 
+            path="/contact-us"  
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <ContactUs />
+              </PrivateRoute>
+            } 
+          /> 
+
+          <Route 
+            path="/resources" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <Resource />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/properties/add" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <PropertyForm />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/properties/edit/:id" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <PropertyForm isEditing={true} />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route 
+            path="/properties/:id" 
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <PropertyDetail />
+              </PrivateRoute>
+            } 
+          />
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+      {renderNavbarFooter && <Footer />}
     </Router>
   );
 }

@@ -30,8 +30,8 @@ const Dashboard = () => {
             {/* Experience Section */}
             <section className="experience">
                 <div className="container mx-auto flex justify-between items-center">
-                    <p>Experience SYSPRO ERP - Take the virtual tour of SYSPRO ERP capabilities.</p>
-                    <button onClick={goToPerformance}>Take the Tour</button>
+                    <p>Experience  ERP - Take the virtual tour of  ERP capabilities.</p>
+                    <button onClick={goToPerformance}>performance</button>
                 </div>
             </section>
 
@@ -49,7 +49,7 @@ const Dashboard = () => {
 
             {/* Industry Solutions Section */}
             <section className="industry-solutions">
-                <h3>Industry Specific ERP Solutions</h3>
+                <h3>al properties</h3>
                 <p>Enterprise Resource Planning solutions, built to meet your industry needs.</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
                     {['Packaging', 'Electronics', 'Automotive', 'Industrial Machinery', 'Food & Beverage'].map((industry, index) => (
@@ -59,18 +59,10 @@ const Dashboard = () => {
                         </div>
                     ))}
                 </div>
-                <button onClick={goToPerformance}>View All Industries</button>
+                <button onClick={goToPerformance}>View All performance</button>
             </section>
 
-            {/* Footer */}
-            <footer className="footer">
-                <p>&copy; 2024 Your ERP Company. All rights reserved.</p>
-                <div className="footer-links flex space-x-4 justify-center">
-                    <button onClick={() => navigate('/privacy-policy')}>Privacy Policy</button>
-                    <button onClick={() => navigate('/terms')}>Terms of Service</button>
-                    <button onClick={() => navigate('/support')}>Support</button>
-                </div>
-            </footer>
+           
         </div>
     );
 };
