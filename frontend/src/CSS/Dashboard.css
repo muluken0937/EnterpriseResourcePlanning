@@ -201,20 +201,94 @@
     background-color: #EA580C;
 }
 
-/* Footer */
-.footer {
-    background-color: #6B7280;
-    padding: 2rem 0;
-    text-align: center;
-    color: #ffffff;
+
+/* Finance Dashboard Section */
+.finance-dashboard {
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 90%; /* Adjust for responsiveness */
 }
 
-.footer .footer-links button {
+/* Finance Dashboard Header */
+.finance-dashboard h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #374151;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* Finance Dashboard Charts */
+.finance-dashboard .recharts-wrapper {
+    margin: auto;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 1rem 0;
+}
+
+.finance-dashboard .chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+/* Finance Cards */
+.finance-dashboard .finance-card {
+    background-color: #F9FAFB;
+    padding: 1.5rem;
+    border-radius: 0.375rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.finance-dashboard .finance-card h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.finance-dashboard .finance-card p {
+    color: #4B5563;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Hover effect on finance cards */
+.finance-dashboard .finance-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Finance Buttons */
+.finance-dashboard button {
+    background-color: #F97316;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
     color: #ffffff;
     cursor: pointer;
-    transition: color 0.2s;
+    margin-top: 1rem;
 }
 
-.footer .footer-links button:hover {
-    color: #F97316;
+.finance-dashboard button:hover {
+    background-color: #EA580C;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .finance-dashboard .chart-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .finance-dashboard .finance-card {
+        max-width: 90%;
+    }
 }

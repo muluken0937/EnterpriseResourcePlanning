@@ -17,11 +17,14 @@
     font-size: 2em;
     text-align: center;
     margin-bottom: 20px;
+    color: rgb(235, 138, 54);
+    font-weight: bold;
 }
 
 .property-detail-info {
     font-size: 1.1em;
     line-height: 1.6;
+    color: white;
 }
 
 .property-detail-description {

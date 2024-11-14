@@ -3,7 +3,7 @@ import { FaLinkedin, FaTwitter, FaFacebook, FaInstagram, FaYoutube } from "react
 
 function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-10 px-6">
+    <footer className="bg-cyan-50 text-black py-10 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8">
         {/* Our Offices Section */}
         <div>
@@ -17,7 +17,7 @@ function Footer() {
         </div>
         {/* Global Navigation Section */}
         <div>
-          <h3 className="font-bold mb-2">Global Navigation</h3>
+          <h3 className="font-bold mb-2">Local Navigation</h3>
           <ul className="space-y-1">
             <li>Addis Ababa</li>
             <li>Hawassa</li>
@@ -58,28 +58,28 @@ function Footer() {
           </ul>
         </div>
         {/* Social Media Section */}
-        <div>
+        <div >
           <h3 className="font-bold mb-2">Connect with ERP</h3>
           <div className="flex space-x-2">
             <a href="#" aria-label="LinkedIn" className="p-2 bg-white rounded">
-              <FaLinkedin className="h-6 w-6 text-gray-800" />
+              <FaLinkedin className="h-6 w-6 text-gray-800 hover:text-white" />
             </a>
             <a href="#" aria-label="Twitter" className="p-2 bg-white rounded">
-              <FaTwitter className="h-6 w-6 text-gray-800" />
+              <FaTwitter className="h-6 w-6 text-gray-800 hover:text-white" />
             </a>
             <a href="#" aria-label="Facebook" className="p-2 bg-white rounded">
-              <FaFacebook className="h-6 w-6 text-gray-800" />
+              <FaFacebook className="h-6 w-6 text-gray-800 hover:text-white" />
             </a>
             <a href="#" aria-label="Instagram" className="p-2 bg-white rounded">
-              <FaInstagram className="h-6 w-6 text-gray-800" />
+              <FaInstagram className="h-6 w-6 text-gray-800 hover:text-white" />
             </a>
             <a href="#" aria-label="YouTube" className="p-2 bg-white rounded">
-              <FaYoutube className="h-6 w-6 text-gray-800" />
+              <FaYoutube className="h-6 w-6 text-gray-800 hover:text-white" />
             </a>
           </div>
         </div>
       </div>
-      <div className="border-t border-gray-600 mt-6 pt-4 text-center">
+      <div className=" bg-cyan-100 border-t border-gray-600 mt-6 pt-4  text-center">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-gray-400">© Copyright ERP 2024. All Rights Reserved.</div>
           <div className="space-x-4 mt-2 md:mt-0 text-sm text-gray-400">

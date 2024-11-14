@@ -1,6 +1,9 @@
+
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../CSS/Dashboard.css';
+import FinanceDashboard from './FinanceDashboard'; // Import the new FinanceDashboard
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -15,8 +18,8 @@ const Dashboard = () => {
 
     return (
         <div className="bg-gray-100">
-        {/* Hero Section */}
-        <section className="hero flex justify-center items-center">
+            {/* Hero Section */}
+            <section className="hero flex justify-center items-center">
                 <div className="container mx-auto flex items-center flex-col lg:flex-row">
                     <div className="hero-text lg:w-1/2">
                         <h1>Say Yes to Next Level ERP</h1>
@@ -35,7 +38,10 @@ const Dashboard = () => {
                 </div>
             </section>
 
-           {/* ERP Info Section */}
+            {/* Financial Dashboard Section (inserted after Experience Section) */}
+            <FinanceDashboard /> {/* Add the Financial Dashboard here */}
+
+            {/* ERP Info Section */}
             <section className="erp-info">
                 <div className="container mx-auto flex flex-col lg:flex-row items-center">
                     <div className="lg:w-1/2 lg:pr-8 mb-8 lg:mb-0">
@@ -61,8 +67,6 @@ const Dashboard = () => {
                 </div>
                 <button onClick={goToPerformance}>View All performance</button>
             </section>
-
-           
         </div>
     );
 };

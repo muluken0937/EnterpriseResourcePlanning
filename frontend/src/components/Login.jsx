@@ -15,7 +15,7 @@ export default function Login() {
       const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password });
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.role);
-      
+      localStorage.setItem('userId', data.userId);
       console.log("Login successful, navigating to dashboard...");
       navigate('/dashboard'); // Redirect to dashboard after login
     } catch (error) {

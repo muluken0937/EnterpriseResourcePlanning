@@ -1,0 +1,12 @@
+/* InvoiceDetails.css */
+.invoice-details {
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .invoice-actions {
+    margin-top: 1em;
+  }
+  
+  
