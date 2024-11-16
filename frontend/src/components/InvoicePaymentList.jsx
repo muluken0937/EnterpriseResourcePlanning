@@ -8,10 +8,8 @@ const InvoicePaymentList = () => {
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const navigate = useNavigate();
 
-  // Get token from localStorage
   const token = localStorage.getItem('token');
 
-  // Fetch all invoices on component mount
   useEffect(() => {
     const fetchInvoices = async () => {
       if (!token) {
@@ -22,7 +20,7 @@ const InvoicePaymentList = () => {
       try {
         const response = await axios.get('http://localhost:5000/api/invoices', {
           headers: {
-            Authorization: `Bearer ${token}`, // Add the token here
+            Authorization: `Bearer ${token}`, 
           },
         });
         setInvoices(response.data.data);
@@ -69,13 +67,9 @@ const InvoicePaymentList = () => {
         {invoices.map((invoice) => (
           <li key={invoice._id}>
             <div className="invoice-header">
-              <span>Customer: {invoice.customer ? invoice.customer.username : 'Unknown'}</span>
-              <span>Total: ${invoice.total}</span>
-              <span>Status: {invoice.status}</span>
-
-              {invoice.customer && (
-                <button onClick={() => handleInvoiceSelect(invoice)}>Make Payment</button>
-              )}
+            <span>Total: ${invoice.total}</span>
+            <span>Status: {invoice.status}</span>            
+              <button onClick={() => handleInvoiceSelect(invoice)}>Make Payment</button>
 
               <button onClick={() => toggleInvoiceDetails(invoice._id)}>
                 {selectedInvoiceId === invoice._id ? 'Hide Details' : 'Show Details'}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 function About() {
     return (
@@ -34,32 +34,27 @@ function About() {
               <h2 className="text-3xl font-bold text-center text-gray-800">Meet Our Team</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
                 <div className="text-center">
-                  <img className="w-24 h-24 rounded-full mx-auto" src="https://via.placeholder.com/150" alt="Team Member 1" />
-                  <h3 className="mt-4 text-xl font-semibold text-gray-800">John Doe</h3>
+                  <img className="w-24 h-24 rounded-full mx-auto" src="/photo_2024-09-05_22-32-00.jpg" alt="Team Member 1" />
+                  <h3 className="mt-4 text-xl font-semibold text-gray-800">mule</h3>
                   <p className="mt-2 text-gray-600">CEO & Founder</p>
                 </div>
                 <div className="text-center">
-                  <img className="w-24 h-24 rounded-full mx-auto" src="https://via.placeholder.com/150" alt="Team Member 2" />
-                  <h3 className="mt-4 text-xl font-semibold text-gray-800">Jane Smith</h3>
+                  <img className="w-24 h-24 rounded-full mx-auto" src="/photo_2024-09-05_22-32-00.jpg" alt="Team Member 2" />
+                  <h3 className="mt-4 text-xl font-semibold text-gray-800">mule</h3>
                   <p className="mt-2 text-gray-600">CTO</p>
                 </div>
                 <div className="text-center">
-                  <img className="w-24 h-24 rounded-full mx-auto" src="https://via.placeholder.com/150" alt="Team Member 3" />
-                  <h3 className="mt-4 text-xl font-semibold text-gray-800">Bob Johnson</h3>
+                  <img className="w-24 h-24 rounded-full mx-auto" src="/photo_2024-09-05_22-32-00.jpg" alt="Team Member 3" />
+                  <h3 className="mt-4 text-xl font-semibold text-gray-800">mule</h3>
                   <p className="mt-2 text-gray-600">Head of Marketing</p>
                 </div>
               </div>
             </div>
           </section>
     
-          <footer className="bg-gray-800 text-white py-6">
-            <div className="container mx-auto text-center">
-              <p className="text-lg">© ERP 2024. All Rights Reserved.</p>
-            </div>
-          </footer>
+          
         </div>
       );
-    }
+}
 
-
-export default About
+export default About;
