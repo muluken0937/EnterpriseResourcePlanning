@@ -1,9 +1,20 @@
 const Property = require('../models/property');
 const path = require('path');
 
-exports.addProperty = async (req, res) => {
+exports.addProperty = async (req, res) => { 
     try {
-        const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+        const imageFiles = req.files['images'] || [];
+        const documentFiles = req.files['documents'] || [];
+
+        const images = imageFiles.map(file => ({
+            imageUrl: `/uploads/${file.filename}`,
+            description: req.body.imageDescriptions || ''
+        }));
+
+        const documents = documentFiles.map(file => ({
+            documentType: req.body.documentTypes || '',
+            documentUrl: `/uploads/${file.filename}`
+        }));
 
         const newProperty = new Property({
             propertyId: req.body.propertyId,
@@ -16,7 +27,8 @@ exports.addProperty = async (req, res) => {
             price: req.body.price,
             availabilityStatus: req.body.availabilityStatus,
             createdBy: req.user.id,
-            images: imageUrl ? [{ imageUrl }] : []
+            images,
+            documents
         });
 
         const savedProperty = await newProperty.save();
@@ -28,6 +40,7 @@ exports.addProperty = async (req, res) => {
 };
 
 
+
 exports.getAllProperties = async (req, res) => {
     try {
         const properties = await Property.find();
@@ -36,6 +49,7 @@ exports.getAllProperties = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 exports.getPropertyById = async (req, res) => {
     try {
@@ -49,6 +63,7 @@ exports.getPropertyById = async (req, res) => {
     }
 };
 
+
 exports.updateProperty = async (req, res) => {
     try {
         const property = await Property.findById(req.params.id);
@@ -56,26 +71,45 @@ exports.updateProperty = async (req, res) => {
             return res.status(404).json({ message: 'Property not found' });
         }
 
-        if (req.file) {
-            const imageUrl = `/uploads/${req.file.filename}`;
-            property.images = [{ imageUrl }];
-        }
+        const imageFiles = req.files['images'] || [];
+        const documentFiles = req.files['documents'] || [];
+
+        const images = imageFiles.map(file => ({
+            imageUrl: `/uploads/${file.filename}`,
+            description: req.body.imageDescriptions || ''
+        }));
+        if (images.length > 0) property.images.push(...images);
+
+        const documents = documentFiles.map(file => ({
+            documentType: req.body.documentTypes || '',
+            documentUrl: `/uploads/${file.filename}`
+        }));
+        if (documents.length > 0) property.documents.push(...documents);
 
         Object.assign(property, req.body);
+
         const updatedProperty = await property.save();
         res.status(200).json(updatedProperty);
     } catch (error) {
+        console.error("Error updating property:", error);
         res.status(400).json({ message: error.message });
     }
 };
+
 exports.deleteProperty = async (req, res) => {
     try {
         const property = await Property.findByIdAndDelete(req.params.id);
         if (!property) {
             return res.status(404).json({ message: 'Property not found' });
         }
+        
+        
+        property.images.forEach((img) => fs.unlinkSync(path.join(__dirname, '../config', img.imageUrl)));
+        property.documents.forEach((doc) => fs.unlinkSync(path.join(__dirname, '../config', doc.documentUrl)));
+        
         res.status(200).json({ message: 'Property deleted successfully' });
     } catch (error) {
+        console.error("Error deleting property:", error);
         res.status(500).json({ message: error.message });
     }
 };

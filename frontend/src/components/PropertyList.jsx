@@ -5,18 +5,18 @@ import '../CSS/PropertyList.css';
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchProperties = async () => {
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.get('http://localhost:5000/api/properties', {
-                    headers: {
-                        Authorization: `Bearer ${token}`, 
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setProperties(response.data);
             } catch (error) {
+                setError('Failed to fetch properties. Please try again.');
                 console.error("Error fetching properties:", error.response || error.message);
             }
         };
@@ -26,12 +26,12 @@ const PropertyList = () => {
     return (
         <div className="property-list-container">
             <h1 className="property-list-title">Property List</h1>
+            {error && <p className="error-message">{error}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {properties.map((property) => (
                     <Link to={`/properties/${property._id}`} key={property._id} className="property-card-link">
                         <div className="property-card">
-                            {/* Display the image if available, otherwise show a placeholder */}
-                            {property.images.length > 0 ? (
+                            {property.images?.[0]?.imageUrl ? (
                                 <img 
                                     src={`http://localhost:5000${property.images[0].imageUrl}`} 
                                     alt={`${property.title} image`} 

@@ -18,9 +18,7 @@ const PropertyDetail = () => {
                 const token = localStorage.getItem('token');
                 const userRole = localStorage.getItem('role');
                 const response = await axios.get(`http://localhost:5000/api/properties/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setProperty(response.data);
                 setIsAuthorized(checkAuthorization(userRole));
@@ -43,9 +41,7 @@ const PropertyDetail = () => {
         const token = localStorage.getItem('token');
         try {
             await axios.delete(`http://localhost:5000/api/properties/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
             navigate('/properties');
         } catch (error) {
@@ -71,7 +67,7 @@ const PropertyDetail = () => {
     }
 
     return (
-        <div className="property-detail-container" style={{ backgroundImage: `url(http://localhost:5000${property.images[0].imageUrl})` }}>
+        <div className="property-detail-container" style={{ backgroundImage: `url(http://localhost:5000${property.images?.[0]?.imageUrl})` }}>
             <div className="property-detail-overlay">
                 <h1 className="property-detail-title">{property.title || 'N/A'}</h1>
                 <div className="property-detail-info">
@@ -112,15 +108,39 @@ const PropertyDetail = () => {
                     {property.documents && property.documents.length > 0 && (
                         <div>
                             <strong>Documents:</strong>
-                            <ul>
+                            <div className="document-list">
                                 {property.documents.map((doc, index) => (
-                                    <li key={index}>
-                                        {doc.documentType}: <a href={doc.documentUrl} target="_blank" rel="noopener noreferrer">View Document</a>
-                                    </li>
+                                    <div key={index} className="document-box">
+                                        <span className="document-icon">
+                                            {doc.documentType === 'pdf' ? '📄' : '📑'}
+                                        </span>
+                                        <div>
+                                            {/* Download Link Button */}
+                                            <a 
+                                                href={`http://localhost:5000${doc.documentUrl}`} 
+                                                className="document-link"
+                                                download  
+                                            >
+                                                Download {doc.documentType.toUpperCase()}
+                                            </a>
+
+                                            {/* Open Document Button */}
+                                            <a 
+                                                href={`http://localhost:5000${doc.documentUrl}`} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="document-link"
+                                            >
+                                                Open {doc.documentType.toUpperCase()} Document
+                                            </a>
+                                        </div>
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
                     )}
+
+
                     {isAuthorized && (
                         <div className="button-container">
                             <button onClick={handleUpdate} className="update-button">Update Property</button>

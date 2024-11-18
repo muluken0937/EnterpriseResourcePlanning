@@ -10,14 +10,14 @@ router.post(
     '/add',
     userMiddleware.protect,
     userMiddleware.restrictTo('Sales User'),
-    upload.single('image'), // Single image upload
+    upload.fields([{ name: 'images', maxCount: 5 }, { name: 'documents', maxCount: 5 }]), // Allow multiple images and documents
     propertyController.addProperty
 );
 router.put(
     '/:id',
     userMiddleware.protect,
     userMiddleware.restrictTo('Super Admin', 'Admin', 'Sales Manager', 'Sales User'),
-    upload.single('image'), // Single image upload
+    upload.fields([{ name: 'images', maxCount: 5 }, { name: 'documents', maxCount: 5 }]),
     propertyController.updateProperty
 );
 router.delete(

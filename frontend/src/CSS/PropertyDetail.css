@@ -1,88 +1,208 @@
+/* Main container for the property details */
 .property-detail-container {
     position: relative;
     background-size: cover;
     background-position: center;
     color: rgb(255, 255, 255);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    margin: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
+/* Overlay for the content section */
 .property-detail-overlay {
-    background-color: rgba(2, 44, 68, 0.5);
-    padding: 20px;
-    border-radius: 10px;
+    background-color: rgba(2, 44, 68, 0.8); /* Darker overlay for better contrast */
+    padding: 40px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 850px;
+    text-align: left;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
 }
 
+/* Title styling */
 .property-detail-title {
-    font-size: 2em;
+    font-size: 2.5em;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     color: rgb(235, 138, 54);
     font-weight: bold;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.5);
 }
 
+/* Property info section */
 .property-detail-info {
     font-size: 1.1em;
-    line-height: 1.6;
-    color: white;
+    line-height: 1.7;
+    color: #fff;
+    margin-bottom: 20px;
 }
 
+/* Description section */
 .property-detail-description {
     font-size: 1.2em;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .property-detail-info p,
 .property-detail-info div {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
+.property-detail-info ul {
+    list-style-type: disc;
+    padding-left: 24px;
+}
+
+/* Button container */
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Add space between the buttons */
-    margin-top: 20px;
+    gap: 12px;
+    margin-top: 24px;
 }
 
+/* Styling for update, delete, and download buttons */
 .update-button,
-.delete-button {
-    padding: 10px 20px;
+.delete-button,
+.download-button {
+    padding: 12px 24px;
     font-size: 1em;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     color: #fff;
-    transition: background-color 0.3s ease;
-}
-
-.update-button {
-    background-color: #4CAF50; /* Green */
-}
-
-.delete-button {
-    background-color: #f44336; /* Red */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .update-button:hover,
-.delete-button:hover {
-    background-color: #555; /* Darker shade on hover */
+.delete-button:hover,
+.download-button:hover {
+    transform: translateY(-2px);
 }
 
-.error-message {
+/* Update button */
+.update-button {
+    background-color: #4CAF50;
+}
+
+.update-button:hover {
+    background-color: #45a049;
+}
+
+/* Delete button */
+.delete-button {
+    background-color: #f44336;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+/* Download button */
+.download-button {
+    background-color: #007bff;
+}
+
+.download-button:hover {
+    background-color: #0056b3;
+}
+
+/* Error, loading, and no-property messages */
+.error-message,
+.loading-message,
+.no-property-message {
     color: #f44336;
     font-size: 1.2em;
     text-align: center;
     margin-top: 20px;
 }
 
-.loading-message {
-    text-align: center;
-    font-size: 1.2em;
-    margin-top: 20px;
+/* Document link styling */
+a.document-link {
+    color: #ff9800;
+    text-decoration: underline;
+    font-weight: bold;
+    margin-left: 6px;
 }
 
-.no-property-message {
+a.document-link:hover {
+    color: #ffc107;
+}
+
+/* Document list layout */
+.document-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+/* Document box styling */
+.document-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     text-align: center;
-    font-size: 1.2em;
-    margin-top: 20px;
+    background-color: #fafafa;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.document-box:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+.document-icon {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Document link styling */
+.document-link {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.document-link:hover {
+    text-decoration: underline;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .property-detail-container {
+        padding: 16px;
+        min-height: 60vh;
+    }
+
+    .property-detail-title {
+        font-size: 2em;
+    }
+
+    .property-detail-info {
+        font-size: 1em;
+    }
+
+    .document-box {
+        width: 100px;
+        height: 80px;
+    }
+
+    .document-list {
+        flex-direction: column;
+        align-items: center;
+    }
 }
