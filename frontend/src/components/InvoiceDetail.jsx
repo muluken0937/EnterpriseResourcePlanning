@@ -12,7 +12,6 @@ const InvoiceDetails = ({ invoiceId }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch the invoice details on mount
   useEffect(() => {
     const fetchInvoice = async () => {
       try {

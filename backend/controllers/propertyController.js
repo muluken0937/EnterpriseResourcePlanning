@@ -1,7 +1,8 @@
 const Property = require('../models/property');
+const fs = require('fs');
 const path = require('path');
 
-exports.addProperty = async (req, res) => { 
+exports.addProperty = async (req, res) => {
     try {
         const imageFiles = req.files['images'] || [];
         const documentFiles = req.files['documents'] || [];
@@ -39,8 +40,6 @@ exports.addProperty = async (req, res) => {
     }
 };
 
-
-
 exports.getAllProperties = async (req, res) => {
     try {
         const properties = await Property.find();
@@ -49,7 +48,6 @@ exports.getAllProperties = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 exports.getPropertyById = async (req, res) => {
     try {
@@ -63,7 +61,6 @@ exports.getPropertyById = async (req, res) => {
     }
 };
 
-
 exports.updateProperty = async (req, res) => {
     try {
         const property = await Property.findById(req.params.id);
@@ -74,17 +71,23 @@ exports.updateProperty = async (req, res) => {
         const imageFiles = req.files['images'] || [];
         const documentFiles = req.files['documents'] || [];
 
-        const images = imageFiles.map(file => ({
-            imageUrl: `/uploads/${file.filename}`,
-            description: req.body.imageDescriptions || ''
-        }));
-        if (images.length > 0) property.images.push(...images);
+        if (imageFiles.length > 0) {
+            const images = imageFiles.map(file => ({
+                imageUrl: `/uploads/${file.filename}`,
+                description: req.body.imageDescriptions || ''
+            }));
 
-        const documents = documentFiles.map(file => ({
-            documentType: req.body.documentTypes || '',
-            documentUrl: `/uploads/${file.filename}`
-        }));
-        if (documents.length > 0) property.documents.push(...documents);
+            property.images = images.concat(property.images); 
+        }
+
+        // Handle document uploads
+        if (documentFiles.length > 0) {
+            const documents = documentFiles.map(file => ({
+                documentType: req.body.documentTypes || '',
+                documentUrl: `/uploads/${file.filename}`
+            }));
+            property.documents.push(...documents);
+        }
 
         Object.assign(property, req.body);
 
@@ -95,21 +98,39 @@ exports.updateProperty = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-
 exports.deleteProperty = async (req, res) => {
     try {
-        const property = await Property.findByIdAndDelete(req.params.id);
+        const propertyId = req.params.id;
+
+        const property = await Property.findByIdAndDelete(propertyId);
+
         if (!property) {
             return res.status(404).json({ message: 'Property not found' });
         }
-        
-        
-        property.images.forEach((img) => fs.unlinkSync(path.join(__dirname, '../config', img.imageUrl)));
-        property.documents.forEach((doc) => fs.unlinkSync(path.join(__dirname, '../config', doc.documentUrl)));
-        
+
+        // Delete images from server
+        if (property.images) {
+            property.images.forEach((image) => {
+                const imagePath = path.join(__dirname, '../config/uploads', path.basename(image.imageUrl));
+                fs.unlink(imagePath, (err) => {
+                    if (err) console.error(`Error deleting image file: ${imagePath}`, err.message);
+                });
+            });
+        }
+
+        // Delete documents from server
+        if (property.documents) {
+            property.documents.forEach((document) => {
+                const docPath = path.join(__dirname, '../config/uploads', path.basename(document.documentUrl));
+                fs.unlink(docPath, (err) => {
+                    if (err) console.error(`Error deleting document file: ${docPath}`, err.message);
+                });
+            });
+        }
+
         res.status(200).json({ message: 'Property deleted successfully' });
     } catch (error) {
-        console.error("Error deleting property:", error);
-        res.status(500).json({ message: error.message });
+        console.error('Error deleting property:', error.message);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };

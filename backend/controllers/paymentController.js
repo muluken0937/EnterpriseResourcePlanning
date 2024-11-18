@@ -2,14 +2,11 @@
 
 const Payment = require('../models/Payment');
 const Invoice = require('../models/Invoice');
-const User = require('../models/user');  // Assuming customer info is stored in User model
+const User = require('../models/user');  
 
-// Record a Payment
 exports.recordPayment = async (req, res) => {
   try {
-    const { invoice, amount, paymentMethod, customerId } = req.body;  // Ensure customerId is included
-
-    // Validate the customer
+    const { invoice, amount, paymentMethod, customerId } = req.body;  
     const customer = await User.findById(customerId);
     if (!customer) {
       return res.status(400).json({ success: false, error: 'Customer not found' });
