@@ -1,4 +1,3 @@
-// Invoice model (models/Invoice.js)
 const mongoose = require('mongoose');
 
 const invoiceSchema = new mongoose.Schema({
@@ -28,8 +27,12 @@ const invoiceSchema = new mongoose.Schema({
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',  
+    ref: 'User',
     required: true,
+  },
+  property: { // Reference to Property
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Property',
   },
 });
 

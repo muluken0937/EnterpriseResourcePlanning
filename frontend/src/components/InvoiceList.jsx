@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../CSS/InvoiceList.css';
 
 const InvoiceList = () => {
+  const { state } = useLocation(); 
+  const { propertyId, price } = state || {}; 
   const [invoiceData, setInvoiceData] = useState({
     dueDate: '',
-    lineItems: [{ description: '', quantity: 1, unitPrice: 0 }],
+    lineItems: price
+      ? [{ description: 'Default Item', quantity: 1, unitPrice: price }]
+      : [{ description: '', quantity: 1, unitPrice: 0 }],
     subtotal: 0,
     tax: 0,
     total: 0,
@@ -16,17 +20,17 @@ const InvoiceList = () => {
   const { invoiceId } = useParams();
   const navigate = useNavigate();
 
-  // Calculate subtotal, tax, and total
   const calculateTotal = () => {
     const subtotal = invoiceData.lineItems.reduce(
       (acc, item) => acc + item.quantity * item.unitPrice,
       0
     );
-    const tax = subtotal * 0.1;
+    const tax = subtotal * 0.1; 
     const total = subtotal + tax;
     setInvoiceData((prevData) => ({ ...prevData, subtotal, tax, total }));
   };
 
+  // Fetch existing invoice if invoiceId is provided (edit mode)
   useEffect(() => {
     if (invoiceId) {
       const fetchInvoiceData = async () => {
@@ -34,25 +38,20 @@ const InvoiceList = () => {
           const token = localStorage.getItem('token');
           if (!token) {
             setError('User not authenticated');
-            console.error('Token not found in localStorage');
             return;
           }
 
           const response = await axios.get(`http://localhost:5000/api/invoices/${invoiceId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           });
 
-          if (response.data.success && response.data.data) {
+          if (response.data.success) {
             setInvoiceData(response.data.data);
           } else {
-            setError('Invoice not found or data format error');
-            console.error('Unexpected response format:', response.data);
+            setError('Invoice not found.');
           }
         } catch (error) {
           setError('Error fetching invoice data.');
-          console.error('Error fetching invoice data:', error);
         }
       };
 
@@ -60,11 +59,12 @@ const InvoiceList = () => {
     }
   }, [invoiceId]);
 
+  // Recalculate totals when line items change
   useEffect(() => {
     calculateTotal();
   }, [invoiceData.lineItems]);
 
-  // Handle line item changes and recalculate total
+  // Handle line item changes
   const handleLineItemChange = (index, event) => {
     const updatedItems = invoiceData.lineItems.map((item, i) =>
       i === index ? { ...item, [event.target.name]: event.target.value } : item
@@ -83,70 +83,44 @@ const InvoiceList = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
-  
+
     if (!token || !userId) {
       alert('You are not authenticated. Please log in again.');
       navigate('/login');
       return;
     }
-  
-    const invoiceDataWithUser = { ...invoiceData, createdBy: userId };
-  
+
+    const invoiceDataWithUser = { ...invoiceData, createdBy: userId, propertyId };
+
     try {
       let response;
       if (invoiceId) {
-        // PUT request to update invoice
+        // Update existing invoice
         response = await axios.put(
           `http://localhost:5000/api/invoices/${invoiceId}`,
           invoiceDataWithUser,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
       } else {
-        // POST request to create invoice
+        // Create new invoice
         response = await axios.post(
           'http://localhost:5000/api/invoices',
           invoiceDataWithUser,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
       }
-  
+
       if (response.data.success) {
         alert(invoiceId ? 'Invoice updated successfully' : 'Invoice created successfully');
-        setInvoiceData({
-          dueDate: '',
-          lineItems: [{ description: '', quantity: 1, unitPrice: 0 }],
-          subtotal: 0,
-          tax: 0,
-          total: 0,
-        });
-        navigate('/InvoicePaymentList');
+        navigate('/InvoicePaymentList'); // Redirect after successful save
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        alert('Unauthorized. Please log in again.');
-        navigate('/login');
-      } else if (error.response && error.response.status === 403) {
-        alert('You do not have permission to update this invoice.');
-      } else {
-        alert('Error saving invoice. Please try again.');
-      }
-      console.error(error);
+      alert('Error saving invoice. Please try again.');
     }
   };
-  
-  
-  
 
   return (
     <form onSubmit={handleSubmit} className="invoice-form">
@@ -223,3 +197,4 @@ const InvoiceList = () => {
 };
 
 export default InvoiceList;
+

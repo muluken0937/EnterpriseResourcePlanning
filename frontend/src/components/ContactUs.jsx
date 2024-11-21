@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaLinkedin, FaTwitter, FaFacebook } from 'react-icons/fa'; // Import icons
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -102,7 +103,7 @@ const ContactUs = () => {
               <div className="space-y-4">
                 {/* Company Address */}
                 <p className="text-gray-600">
-                  <strong>Address:</strong> ethiopia, Addis Ababa , lebu mebirat
+                  <strong>Address:</strong> Ethiopia, Addis Ababa, Lebu Mebrat
                 </p>
 
                 {/* Phone */}
@@ -138,25 +139,17 @@ const ContactUs = () => {
           <h3 className="text-xl font-semibold text-gray-800 mb-4">Follow Us</h3>
           <div className="flex justify-center space-x-6">
             <a href="#" aria-label="LinkedIn" className="text-gray-800 hover:text-blue-600">
-              <svg className="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8.25a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM5.25 9.75a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM5.25 13.5v6h-3v-6h3zm7.5 0v6h-3v-6h3zm7.5 0v6h-3v-6h3z" />
-              </svg>
+              <FaLinkedin className="h-8 w-8" />
             </a>
             <a href="#" aria-label="Twitter" className="text-gray-800 hover:text-blue-600">
-              <svg className="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 19l3 3 3-3m-3-2v-7m0 0l3 3m-3-3l-3 3M4 7a2 2 0 112 2 2 2 0 010-4z" />
-              </svg>
+              <FaTwitter className="h-8 w-8" />
             </a>
             <a href="#" aria-label="Facebook" className="text-gray-800 hover:text-blue-600">
-              <svg className="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2h6v12h-6zm-2 0h-6v12h6zm0 0v12h-6z" />
-              </svg>
+              <FaFacebook className="h-8 w-8" />
             </a>
           </div>
         </div>
       </section>
-
-      
     </div>
   );
 };

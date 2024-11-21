@@ -9,7 +9,7 @@ router.get('/:id', userMiddleware.protect, propertyController.getPropertyById);
 router.post(
     '/add',
     userMiddleware.protect,
-    userMiddleware.restrictTo('Sales User'),
+    userMiddleware.restrictTo('Super Admin', 'Admin', 'Sales Manager', 'Sales User'),
     upload.fields([{ name: 'images', maxCount: 5 }, { name: 'documents', maxCount: 5 }]), // Allow multiple images and documents
     propertyController.addProperty
 );

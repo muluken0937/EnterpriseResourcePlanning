@@ -166,7 +166,7 @@ function App() {
           />
 
           <Route
-            path="/invoices"
+            path="/invoices/create"
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
                 <InvoiceList />
