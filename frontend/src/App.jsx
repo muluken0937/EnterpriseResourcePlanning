@@ -31,7 +31,7 @@ function App() {
   return (
     <Router>
       {renderNavbarFooter && <Navbar />}
-      <div style={{ paddingTop: renderNavbarFooter ? '80px' : '0', paddingBottom: renderNavbarFooter ? '110px' : '0' }}>
+      <div style={{ paddingTop: renderNavbarFooter ? '60px' : '0', paddingBottom: renderNavbarFooter ? '100px' : '0' }}>
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
