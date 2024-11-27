@@ -70,7 +70,8 @@
 /* Styling for update, delete, and download buttons */
 .update-button,
 .delete-button,
-.download-button {
+.download-button,
+.invoice-button {
     padding: 12px 24px;
     font-size: 1em;
     border: none;
@@ -83,7 +84,8 @@
 
 .update-button:hover,
 .delete-button:hover,
-.download-button:hover {
+.download-button:hover, 
+.invoice-button{
     transform: translateY(-2px);
 }
 
@@ -104,7 +106,9 @@
 .delete-button:hover {
     background-color: #d32f2f;
 }
-
+.invoice-button{
+    background-color: #0056b3;
+}
 /* Download button */
 .download-button {
     background-color: #007bff;
@@ -114,7 +118,6 @@
     background-color: #0056b3;
 }
 
-/* Error, loading, and no-property messages */
 .error-message,
 .loading-message,
 .no-property-message {
