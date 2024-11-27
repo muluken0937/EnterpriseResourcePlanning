@@ -69,9 +69,9 @@ const InvoicePaymentList = () => {
             <div className="invoice-header">
             <span>Total: ${invoice.total}</span>
             <span>Status: {invoice.status}</span>            
-              <button onClick={() => handleInvoiceSelect(invoice)}>Make Payment</button>
+              <button onClick={() => handleInvoiceSelect(invoice)} className="payment-button">Make Payment</button>
 
-              <button onClick={() => toggleInvoiceDetails(invoice._id)}>
+              <button onClick={() => toggleInvoiceDetails(invoice._id)} className="details-button">
                 {selectedInvoiceId === invoice._id ? 'Hide Details' : 'Show Details'}
               </button>
 

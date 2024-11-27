@@ -25,17 +25,14 @@ const FinanceDashboard = () => {
       },
     };
 
-    // Fetch Financial Summary
     axios.get('http://localhost:5000/api/reports/summary', config)
       .then(response => setSummary(response.data))
       .catch(error => console.error("Error fetching financial summary:", error));
 
-    // Fetch Monthly Revenue
     axios.get('http://localhost:5000/api/reports/revenue?period=month', config)
       .then(response => setMonthlyRevenue(response.data))
       .catch(error => console.error("Error fetching monthly revenue:", error));
 
-    // Fetch Overdue Invoices
     axios.get('http://localhost:5000/api/reports/overdue', config)
       .then(response => setOverdueInvoices(response.data))
       .catch(error => console.error("Error fetching overdue invoices:", error));
