@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../CSS/PaymentForm.css';
 
 const PaymentForm = () => {
-  const { invoiceId } = useParams(); // Get the invoiceId from the URL
-  const [amount, setAmount] = useState('');
+  const { invoiceId } = useParams(); 
+  const location = useLocation();
+  const navigate = useNavigate(); 
+  const queryParams = new URLSearchParams(location.search);
+  const totalAmount = queryParams.get('total'); 
+
+  const [amount, setAmount] = useState(totalAmount || ''); 
   const [paymentMethod, setPaymentMethod] = useState('');
   const [customerId, setCustomerId] = useState('');
   const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Automatically set customerId from local storage if it exists
     const storedCustomerId = localStorage.getItem('userId');
     const role = localStorage.getItem('role');
-    
+
     if (role === 'Customer') {
       setCustomerId(storedCustomerId);
     } else {
@@ -22,59 +27,85 @@ const PaymentForm = () => {
     }
   }, []);
 
+  const validateForm = () => {
+    if (!amount || !paymentMethod) {
+      setError('All fields are required!');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(''); // Reset error message
 
-    // Check if customerId is set and role is 'customer'
-    if (!customerId) {
-      setMessage('Customer ID is required to make a payment.');
+    if (!validateForm() || !customerId) {
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/payments', {
-        invoice: invoiceId,  // Pass the invoiceId from the URL
+      await axios.post('http://localhost:5000/api/payments', {
+        invoice: invoiceId, 
         amount,
         paymentMethod,
         customerId,
       });
+
       setMessage('Payment successful!');
+
+      const userConfirmed = window.confirm('Payment successful! Click OK to go back to the invoice list.');
+      if (userConfirmed) {
+        navigate('/InvoicePaymentList?status=success'); 
+      }
     } catch (error) {
       setMessage('Payment failed. Please try again.');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="payment-form">
-      <h4>Payment for Invoice ID: {invoiceId}</h4>
+    <div className="payment-form-container">
+      <h4 className="payment-header">Payment for Invoice ID: {invoiceId}</h4>
       {message && (
         <p className={message === 'Payment successful!' ? 'success-message' : 'error-message'}>
           {message}
         </p>
       )}
-      <label>Amount</label>
-      <input
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        required
-      />
-      <label>Payment Method</label>
-      <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} required>
-        <option value="">Select Method</option>
-        <option value="Credit Card">Credit Card</option>
-        <option value="Bank Transfer">Bank Transfer</option>
-      </select>
-      {customerId && (
-        <div>
-          <label>Customer ID</label>
-          <input type="text" value={customerId} disabled />
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleSubmit} className="payment-form">
+        <div className="form-group">
+          <label htmlFor="amount">Amount</label>
+          <input
+            id="amount"
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            required
+          />
         </div>
-      )}
-      <button type="submit" disabled={!customerId || !amount || !paymentMethod}>
-        Submit Payment
-      </button>
-    </form>
+        <div className="form-group">
+          <label htmlFor="paymentMethod">Payment Method</label>
+          <select 
+            id="paymentMethod" 
+            value={paymentMethod} 
+            onChange={(e) => setPaymentMethod(e.target.value)} 
+            required
+          >
+            <option value="">Select Method</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+          </select>
+        </div>
+        {customerId && (
+          <div className="form-group">
+            <label htmlFor="customerId">Customer ID</label>
+            <input id="customerId" type="text" value={customerId} disabled />
+          </div>
+        )}
+        <button type="submit" className="submit-button" disabled={!customerId || !amount || !paymentMethod}>
+          Submit Payment
+        </button>
+      </form>
+    </div>
   );
 };
 

@@ -200,3 +200,26 @@ exports.getSalesPerformance = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+exports.updateVisitStatus = async (req, res) => {
+    const { userId } = req.params;
+    const { visitStatus } = req.body;
+
+    try {
+        if (!['Visited', 'Not Visited'].includes(visitStatus)) {
+            return res.status(400).json({ message: 'Invalid visit status' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user || user.role !== 'Customer') {
+            return res.status(404).json({ message: 'Customer not found' });
+        }
+
+        user.visitStatus = visitStatus;
+        await user.save();
+
+        res.status(200).json({ message: 'Visit status updated successfully', user });
+    } catch (error) {
+        console.error('Error updating visit status:', error);
+        res.status(500).json({ message: error.message });
+    }
+};

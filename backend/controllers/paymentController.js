@@ -69,3 +69,27 @@ exports.getAllPayments = async (req, res) => {
     res.status(400).json({ success: false, error: error.message });
   }
 };
+exports.getPaymentsByCustomerId = async (req, res) => {
+  try {
+    const customerId = req.params.customerId;
+
+    const payments = await Payment.find({ customerId }).populate('invoice');
+
+    if (!payments.length) {
+      return res.status(404).json({ success: false, message: 'No payments found for this customer' });
+    }
+
+    // Calculate total amount and count
+    const totalAmount = payments.reduce((sum, payment) => sum + payment.amount, 0);
+    const totalPayments = payments.length;
+
+    res.status(200).json({
+      success: true,
+      data: payments,
+      totalPayments,
+      totalAmount,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};

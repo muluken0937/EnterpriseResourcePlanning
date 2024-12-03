@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../CSS/InvoicePaymentList.css';
+import '../CSS/InvoicePaymentList.css'; 
 
 const InvoicePaymentList = () => {
   const [invoices, setInvoices] = useState([]);
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const navigate = useNavigate();
-
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -19,9 +18,7 @@ const InvoicePaymentList = () => {
 
       try {
         const response = await axios.get('http://localhost:5000/api/invoices', {
-          headers: {
-            Authorization: `Bearer ${token}`, 
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setInvoices(response.data.data);
       } catch (error) {
@@ -33,7 +30,7 @@ const InvoicePaymentList = () => {
   }, [token]);
 
   const handleInvoiceSelect = (invoice) => {
-    navigate(`/payments/${invoice._id}`);
+    navigate(`/payments/${invoice._id}?total=${invoice.total}`);
   };
 
   const toggleInvoiceDetails = (invoiceId) => {
@@ -43,9 +40,7 @@ const InvoicePaymentList = () => {
   const handleDelete = async (invoiceId) => {
     try {
       const response = await axios.delete(`http://localhost:5000/api/invoices/${invoiceId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (response.data.success) {
         alert('Invoice deleted successfully');
@@ -65,23 +60,28 @@ const InvoicePaymentList = () => {
       <h2>Invoices</h2>
       <ul>
         {invoices.map((invoice) => (
-          <li key={invoice._id}>
+          <li key={invoice._id} className={`invoice-item ${invoice.status === 'Paid' ? 'paid' : 'unpaid'}`}>
             <div className="invoice-header">
-            <span>Total: ${invoice.total}</span>
-            <span>Status: {invoice.status}</span>            
-              <button onClick={() => handleInvoiceSelect(invoice)} className="payment-button">Make Payment</button>
-
-              <button onClick={() => toggleInvoiceDetails(invoice._id)} className="details-button">
-                {selectedInvoiceId === invoice._id ? 'Hide Details' : 'Show Details'}
-              </button>
-
-              {/* Show Update and Delete buttons for all users */}
-              <button onClick={() => handleUpdate(invoice._id)} className="update-button">
-                Update
-              </button>
-              <button onClick={() => handleDelete(invoice._id)} className="delete-button">
-                Delete
-              </button>
+              <div className="invoice-info">
+                <span className="total"><strong>Total:</strong> ${invoice.total}</span>
+                <span className="status-label"><strong>Status:</strong> <span className={`status ${invoice.status.toLowerCase()}`}>{invoice.status}</span></span>
+              </div>
+              <div className="invoice-actions">
+                {invoice.status !== 'Paid' && (
+                  <button onClick={() => handleInvoiceSelect(invoice)} className="payment-button">
+                    Make Payment
+                  </button>
+                )}
+                <button onClick={() => toggleInvoiceDetails(invoice._id)} className="details-button">
+                  {selectedInvoiceId === invoice._id ? 'Hide Details' : 'Show Details'}
+                </button>
+                <button onClick={() => handleUpdate(invoice._id)} className="update-button">
+                  Update
+                </button>
+                <button onClick={() => handleDelete(invoice._id)} className="delete-button">
+                  Delete
+                </button>
+              </div>
             </div>
 
             {selectedInvoiceId === invoice._id && (
@@ -106,4 +106,3 @@ const InvoicePaymentList = () => {
 };
 
 export default InvoicePaymentList;
-

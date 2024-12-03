@@ -9,7 +9,8 @@ const {
     getSalesUsers, 
     createCustomer, 
     getCustomers, 
-    getSalesPerformance 
+    getSalesPerformance, 
+    updateVisitStatus
 } = require('../controllers/userController');
 const { protect, restrictTo, isSalesManager } = require('../middleware/userMiddleware');
 
@@ -25,6 +26,7 @@ router.post('/customers/create', protect, restrictTo('Sales User'), createCustom
 router.get('/customers', protect, restrictTo('Super Admin', 'Admin', 'Sales User'), getCustomers); // Allow Sales User to view customers too
 router.get('/customers/:userId?', protect, restrictTo('Super Admin', 'Admin', 'Sales Manager', 'Sales User'), getCustomers);
 router.get('/sales-performance', protect, restrictTo('Super Admin', 'Admin', 'Sales Manager', 'Sales User'), getSalesPerformance);
+router.patch('/customers/:userId/visit-status', protect, restrictTo('Sales User'), updateVisitStatus);
 
 
 module.exports = router;

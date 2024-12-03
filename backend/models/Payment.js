@@ -19,11 +19,6 @@ const paymentSchema = new mongoose.Schema({
     enum: ['Credit Card', 'Bank Transfer', 'Cash'],
     required: true,
   },
-  status: {
-    type: String,
-    enum: ['Pending', 'Paid'],
-    default: 'Pending',
-  },
   customerId: {  
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -32,3 +27,4 @@ const paymentSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Payment', paymentSchema);
+

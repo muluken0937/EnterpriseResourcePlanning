@@ -21,7 +21,12 @@ const userSchema = new mongoose.Schema({
     // New fields for Customer
     phoneNumber: { type: String },
     description: { type: String },
-    location: { type: String }
+    location: { type: String },
+    visitStatus: { 
+        type: String, 
+        enum: ['Visited', 'Not Visited'], 
+        default: 'Not Visited' 
+    }
 });
 
 module.exports = mongoose.model('User', userSchema);
